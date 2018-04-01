@@ -1,7 +1,7 @@
 ---
 title: 阻塞与非阻塞、同步与异步、Reactor与Proactor
 date: 2018-03-10 17:32:28
-tags: [Linux,I/O]
+tags: [操作系统,I/O]
 ---
 #### 同步和异步
 > 同步与异步的重点在消息通知的方式上，也就是调用结果通知的方式。
@@ -27,7 +27,7 @@ tags: [Linux,I/O]
 > 在处理IO的时候，阻塞和非阻塞都是同步IO。
 > 只有使用了特殊的API才是异步IO
 
-
+<!--more-->
 同步：IO复用（select/poll/epoll）：阻塞和非阻塞
 
 异步：Linux（AIO）、Windows(IOCP)、.NET(BeginInvoke/EndInvoke)

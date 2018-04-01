@@ -17,6 +17,8 @@ ssh-keygen -t rsa -C your_email@youremail.com
 ```
 可在用户主目录 `~/` 下生成`.ssh`文件夹，存放SSH的密钥对，其中`id_rsa`是私钥，`is_rsa.pub`是公钥。
 
+<!--more-->
+
 ## __导入SSH Key至Git服务器__
 
 以Github为例，登录Github，右上角 头像 -> `Settings` —> `SSH nd GPG keys` —> `New SSH key` 。把公钥粘贴到key中，填好title并点击 `Add SSH key`

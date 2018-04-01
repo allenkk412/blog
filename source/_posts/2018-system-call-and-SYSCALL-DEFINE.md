@@ -1,7 +1,7 @@
 ---
 title: 系统调用和SYSCALL_DEFINE宏定义解析
 date: 2018-03-07 14:06:29
-tags:
+tags: [操作系统]
 ---
 ## 用户态和内核态
 
@@ -14,7 +14,7 @@ Linux操作系统中主要采用了0和3两个特权级，分别对应的就是*
 - **用户态**即上层应用程序的活动空间，应用程序的执行必须依托于内核提供的资源 。用户态的进程可执行操作和访问的资源受到极大限制
 - 为了使上层应用能够访问到这些资源，内核必须为上层应用提供访问的接口：即系统调用。**系统调用是操作系统最小的功能单位**
 
-
+<!--more-->
 
 当用户态的进程调用一个系统调用时，CPU切换到内核态并开始执行一个内核函数。在80x86体系结构中，可以用两种不同的方式调用Linux的系统调用，最终结果都是跳转到所谓的系统调用处理程序的汇编语言函数。
 - 执行 int $0x80 汇编语言指令。
@@ -38,7 +38,7 @@ Linux操作系统中主要采用了0和3两个特权级，分别对应的就是*
 ## SYSCALL_DEFINE
 系统调用在内核中的入口都是sys_xxx，然而在阅读 epoll 源码的过程中，发现都是通过 **SYSCALL_DEFINE** 宏定义实现。故查阅相关资料如下：
 
-```
+```c
 #define SYSCALL_DEFINE0(name)      asmlinkage long sys_##name(void)  
 #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)  
 #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)  
@@ -48,7 +48,7 @@ Linux操作系统中主要采用了0和3两个特权级，分别对应的就是*
 #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__) 
 ```
 
-```
+```c
 #define __SYSCALL_DEFINEx(x, name, ...)                                 \
         asmlinkage long sys##name(__SC_DECL##x(__VA_ARGS__));           \
         static inline long SYSC##name(__SC_DECL##x(__VA_ARGS__));       \
@@ -63,7 +63,7 @@ Linux操作系统中主要采用了0和3两个特权级，分别对应的就是*
 ```
 
 **SYSCALL_DEFINEx** 里面的x代表的是系统调用参数个数。sys_epoll_create1 的宏定义为 
-```
+```c
 SYSCALL_DEFINE1(epoll_create1, int, flag)
 
 //展开后得：
@@ -85,7 +85,7 @@ SYSCALL_DEFINEx(1, _epoll_create1, int, flag)
 ##是连接符，__VA_ARGS__代表前面...里面的可变参数
 
 其中 **__SC_DECLx**,**__SC_LONGx**,**_SC_CASTx**,**_SC_CASTx** 等宏定义如下：
-```
+```c
 
 //设置别名 
 #define SYSCALL_ALIAS(alias, name)                  \  
@@ -126,7 +126,7 @@ SYSCALL_DEFINEx(1, _epoll_create1, int, flag)
 ### asmlinkage的作用
 
 asmlinkage 的定义 (/usr/include/asm/linkage.h里面)：
-```
+```c
 #define asmlinkage CPP_ASMLINKAGE __attribute__((regparm(0)))
 /* __attribute__是关键字，是gcc的C语言扩展，regparm(0)表示不从寄存器传递参数;
 
