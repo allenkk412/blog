@@ -153,3 +153,5 @@ class BloomFilter(object):
 [1] Wiki： https://en.wikipedia.org/wiki/Bloom_filter
 
 [2] 数学之美：http://www.google.com.hk/ggblog/googlechinablog/2007/07/bloom-filter_7469.html
+
+[3] Bloom Filters - the math :http://pages.cs.wisc.edu/~cao/papers/summary-cache/node8.html
